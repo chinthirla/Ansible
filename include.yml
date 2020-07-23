@@ -1,0 +1,17 @@
+- hosts: localhost
+  connection: local
+  tasks:
+    - include: centos.yml
+      when: ansible_os_family == "Centos"
+    - include: rhel.yml
+      when: ansible_os_family == "Redhat"
+
+    - name: adding only perticular servers from inventory files by when module
+      tasks:
+        - name: Restart apache on weservers
+          become: yes
+          service:
+            name: apacje2
+            state: restarted
+          when: webservers in group_names
+

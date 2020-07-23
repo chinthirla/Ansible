@@ -1,0 +1,47 @@
+- hosts: localhost
+  connection: local
+  - name: Copy files from one location to another location
+  copy:
+    src=/home/ansible/test.txt
+    dest=/tmp/test.txt
+  - name: unarchive tarfile with unarchive module
+    unarchive:
+      src=/tmp/mysql-5.6.35-linux-glibc2.5-x86_64.tar.gz
+      dest=/tmp
+      copy=yes
+  - name: Moving mysql peacage to specified location
+      command: creates="/use/local/mysq" mv  /tmp/mysql-5.6.35-linux-glibc2.5-x86_64 /usr/local/mysql
+  - name: chown mysql mysql /usr/local/mysql
+      file: path="/usr/local/mysql owner=mysql group=mysql recurse=yes
+  - name: Adding Lines to ansible loop
+    lineinfile: dest=/etc/file line={{ item }} state=present
+    with_items:
+      - line 1
+      - line 2
+      - line 3
+  - name: Distribute SSH keys among multiple users
+    lineinfile: dest=/home/{{ item[0] }}/.ssh/authorized_keys line={{ item[1] }} state=present
+    with_nested:
+      - [ 'calvin', 'josh', 'alice' ]
+      - '{{ keys }}'
+  tasks:
+    -  name: run the operating system is centos
+       command: echo "i am the centos computer"
+       when: ansible_os_family == "centos"
+  #- name: dictories example
+  #OS_FAMILY = dict(
+    #RedHat = 'RedHat',
+    #Fedora = 'RedHat',
+    #CentOS = 'RedHat',
+    #Scientific = 'RedHat',
+    #SLC = 'RedHat',
+    #Ascendos = 'RedHat',
+    #CloudLinux = 'RedHat',
+    #PSBM = 'RedHat',
+    #OracleLinux = 'RedHat'
+    # )
+
+
+
+
+
