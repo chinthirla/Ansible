@@ -1,0 +1,29 @@
+- name: Create App User
+  include_role:
+    name: common
+    tasks_from: create-app-user
+
+- name: Download {{APP_NAME}} Artifacts
+  include_role:
+    name: common
+    tasks_from: download-artifact-s3
+  when: ARTIFACTS == "S3"
+
+- name: Download {{APP_NAME}} Artifacts
+  include_role:
+    name: common
+    tasks_from: download-artifact-nexus
+  when: ARTIFACTS == "NEXUS"
+
+- name: Create {{APP_NAME}} Directory
+  file:
+    path: /home/{{APP_USER}}/{{APP_NAME}}
+    state: directory
+  become_user: "{{APP_USER}}"
+
+- name: Exrtract {{APP_NAME}} Artifact
+  unarchive:
+    src: /tmp/{{APP_NAME}}.tar.gz
+    dest: /home/{{APP_USER}}/{{APP_NAME}}
+    remote_src: yes
+  become_user: "{{APP_USER}}"

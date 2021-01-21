@@ -1,0 +1,73 @@
+- name: Install Nginx
+  yum:
+    name: nginx
+    state: present
+
+- name: Download Artifacts for {{APP_NAME}} Service
+  include_role:
+    name: common
+    tasks_from: download-artifact-s3
+  vars:
+    APPLICATION_NAME: frontend
+
+- name: Copy nginx config file - Remote Nodes
+  when: ENV != "test"
+  template:
+    src: localhost.conf
+    dest: /etc/nginx/nginx.conf
+  notify: Restart Nginx
+
+- name: Copy nginx config file - Localhost
+  when: ENV == "test"
+  template:
+    src: localhost.conf
+    dest: /etc/nginx/nginx.conf
+  notify: Restart Nginx
+  vars:
+    CATALOGUE_HOST: "localhost"
+    CART_HOST: "localhost"
+    USER_HOST: "localhost"
+    SHIPPING_HOST: "localhost"
+    PAYMENT_HOST: "localhost"
+    RATINGS_HOST: "localhost"
+
+- name: Remove old htdocs
+  file:
+    path: /usr/share/nginx/html
+    state: absent
+
+- name: Create Htdocs directory
+  file:
+    path: /usr/share/nginx/html
+    state: directory
+
+- name: Exrtract {{APP_NAME}} Artifact
+  unarchive:
+    src: /tmp/{{APP_NAME}}.tar.gz
+    dest: /usr/share/nginx/html
+    remote_src: yes
+
+- name: Halt for all the services to come up
+  when: ENV != "test"
+  wait_for:
+    port: 22
+    host: "{{item}}-{{ENV}}.devopsb47.internal"
+    search_regex: OpenSSH
+    delay: 10
+    timeout: 60
+  loop:
+    - catalogue
+    - cart
+    - payment
+    - shipping
+    - dispatch
+    - ratings
+    - user
+
+
+- name: Start Nginx
+  systemd:
+    name: nginx
+    state: started
+    enabled: yes
+

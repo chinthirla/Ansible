@@ -1,0 +1,4 @@
+APP_NAME: cart
+REDIS_HOST: redis-{{ENV}}.devopsb47.internal
+CATALOGUE_HOST: catalogue-{{ENV}}.devopsb47.internal
+ALERT_SERVICE_NAME: cart

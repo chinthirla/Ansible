@@ -1,0 +1,7 @@
+S3_BUCKET: d47-roboshop
+S3_DIRECTORY: app-artifacts
+NODEJS_VERSON: 12.17.0
+NODEJS_URL: https://nodejs.org/dist/v{{NODEJS_VERSON}}/node-v{{NODEJS_VERSON}}-linux-x64.tar.xz
+NODEJS_DIR: "{{NODEJS_URL.split('/') | last | regex_replace('.tar.xz', '')}}"
+APP_USER: roboshop
+ARTIFACTS: S3

@@ -1,0 +1,15 @@
+- name: demo on expect script
+  hosts: all
+  tasks:
+    - name: COpy expect script
+      copy:
+        src: expect.sh
+        dest: /tmp/expect.sh
+        mode: 0755
+
+    - name: expect
+      expect:
+        command: sh /tmp/expect.sh
+        responses:
+          (?i)Name: "MySekretPa$$word"
+

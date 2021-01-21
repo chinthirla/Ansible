@@ -1,0 +1,16 @@
+- name: Grep a line in file
+  hosts: all
+  tasks:
+     - name: "Searching for a String"
+       lineinfile:
+         path: /etc/hosts
+         line: "127.0.0.1"
+         state: present
+       check_mode: yes
+       register: presence
+       failed_when: presence is changed
+       ignore_errors: yes
+
+     - name: debug
+       debug:
+         msg: "{{register}}"

@@ -1,0 +1,10 @@
+- name: Install Boto3
+  pip:
+    name: boto3
+
+- name: Download artifacts.
+  aws_s3:
+    bucket: "{{S3_BUCKET}}"
+    object: "{{S3_DIRECTORY}}/{{APPLICATION_NAME}}.tar.gz"
+    dest: "/tmp/{{APPLICATION_NAME}}.tar.gz"
+    mode: get

@@ -1,0 +1,30 @@
+- name: Install NodeJS
+  include_role:
+    name: common
+    tasks_from: tool-nodejs
+
+- name: Setup Artifacts for {{APP_NAME}} Service
+  include_role:
+    name: common
+    tasks_from: setup-artifacts
+
+- name: Install Node Dependencies
+  npm:
+    path: /home/{{APP_USER}}/{{APP_NAME}}
+  become_user: "{{APP_USER}}"
+
+- name: Setup SystemD Service
+  include_role:
+    name: common
+    tasks_from: service-setup
+  vars:
+    COMMAND: "/bin/node /home/{{APP_USER}}/{{APP_NAME}}/server.js"
+    SYSTEMD_ENV_VARS:
+      - MONGO_URL
+      - REDIS_HOST
+
+- name: Start {{APP_NAME}} Service
+  systemd:
+    name: "{{APP_NAME}}"
+    state: restarted
+    enabled: yes

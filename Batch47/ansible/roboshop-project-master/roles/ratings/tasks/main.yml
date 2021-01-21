@@ -1,0 +1,65 @@
+- name: Install Dependencies for PHP
+  yum:
+    name: "{{item}}"
+    state: present
+  loop:
+    - http://rpms.remirepo.net/enterprise/remi-release-7.rpm
+    - httpd
+
+- name: Install PHP
+  yum:
+    name: "{{item}}"
+    state: present
+    enablerepo: remi-php73
+  loop:
+    - php
+    - php-opcache
+    - php73-php-pdo
+    - composer
+
+- name: Download {{APP_NAME}} Artifacts
+  include_role:
+    name: common
+    tasks_from: download-artifact-s3
+  vars:
+    APPLICATION_NAME: ratings
+
+- name: Delete Old Htdocs
+  file:
+    path: /var/www/html
+    state: absent
+
+- name: Create Htdocs directory
+  file:
+    path: /var/www/html
+    state: directory
+
+- name: Exrtract {{APP_NAME}} Artifact
+  unarchive:
+    src: /tmp/{{APP_NAME}}.tar.gz
+    dest: /var/www/html
+    remote_src: yes
+
+- name: Install Dependecies with
+  composer:
+    command: install
+    working_dir: /var/www/html
+
+- name: Copy Configuration file
+  template:
+    src: status.conf
+    dest: /etc/httpd/conf.d/status.conf
+  notify: Restart Httpd
+
+- name: Change Port number for httpd service
+  lineinfile:
+    path: /etc/httpd/conf/httpd.conf
+    regexp: '^Listen'
+    line: Listen 7004
+  notify: Restart Httpd
+
+- name: Start HTTPD service
+  systemd:
+    name: httpd
+    state: started
+    enabled: yes

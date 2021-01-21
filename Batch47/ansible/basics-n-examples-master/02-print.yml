@@ -1,0 +1,12 @@
+- name: Print a Hello World
+  hosts: all
+  tasks:
+    - name: Print Hello World from debug Module
+      debug:
+        msg: Hello World
+
+    - name: Print Hello Universe
+      debug:
+        msg: Hello Universe
+
+

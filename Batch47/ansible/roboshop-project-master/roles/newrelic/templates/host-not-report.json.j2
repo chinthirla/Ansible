@@ -1,0 +1,12 @@
+{
+   "data":{
+      "type":"infra_host_not_reporting",
+      "name":"HOST-UNREACHABLE-ALERT",
+      "enabled":true,
+      "where_clause":"(hostname LIKE '%{{ansible_fqdn}}%')",
+      "policy_id":{{POLICY_ID}},
+      "critical_threshold":{
+         "duration_minutes":5
+      }
+   }
+}

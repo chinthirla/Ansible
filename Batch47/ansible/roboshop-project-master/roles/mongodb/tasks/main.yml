@@ -1,0 +1,41 @@
+- name: Copy MongoDB repo
+  copy:
+    src: mongodb.repo
+    dest: /etc/yum.repos.d/mongodb.repo
+
+- name: Install MongoDB
+  yum:
+    name: mongodb-org
+    state: present
+
+- name: Change MongoDB Configfile to Accept Remote Connections
+  replace:
+    path: /etc/mongod.conf
+    regexp: '127.0.0.1'
+    replace: '0.0.0.0'
+  notify: ReStart MongoDB Service
+
+- name: Start MongoDB Service
+  systemd:
+    name: mongod
+    state: started
+    enabled: yes
+
+- name: Download Artifact
+  include_role:
+    name: common
+    tasks_from: download-artifact-s3.yml
+  vars:
+    APPLICATION_NAME: mongodb
+
+- name: Unarchive MongoDB
+  unarchive:
+    src: /tmp/mongodb.tar.gz
+    dest: /tmp
+    remote_src: yes
+
+- name: Load Schema
+  shell: mongo < {{item}}
+  loop:
+    - /tmp/catalogue.js
+    - /tmp/users.js

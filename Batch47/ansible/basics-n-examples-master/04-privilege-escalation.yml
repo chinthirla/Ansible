@@ -1,0 +1,9 @@
+- name: Demo on privilege escalation
+  hosts: all
+  become: yes # can be declared in play
+  tasks:
+    - name: Install nginx
+      yum:
+        name: nginx
+        state: latest
+      become: yes # can be declared in task

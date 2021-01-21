@@ -1,0 +1,3 @@
+APP_NAME: dispatch
+USER_HOST: user-{{ENV}}.devopsb47.internal
+CART_HOST: cart-{{ENV}}.devopsb47.internal

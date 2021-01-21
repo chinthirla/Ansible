@@ -1,0 +1,63 @@
+- name: Gather all the packages
+  package_facts:
+    manager: auto
+
+- name: Remove MariaDB-Libs
+  yum:
+    name: mariadb-libs
+    state: absent
+
+- name: Download MySQL
+  unarchive:
+    src: "{{MYSQL_DOWNLOAD_URL}}"
+    dest: /tmp
+    remote_src: yes
+  when: "'mysql-community-server' not in ansible_facts.packages"
+
+- name: Install Packages
+  yum:
+    name: "{{packages}}"
+    state: present
+  vars:
+    packages:
+      - /tmp/mysql-community-client-5.7.28-1.el7.x86_64.rpm
+      - /tmp/mysql-community-common-5.7.28-1.el7.x86_64.rpm
+      - /tmp/mysql-community-libs-5.7.28-1.el7.x86_64.rpm
+      - /tmp/mysql-community-server-5.7.28-1.el7.x86_64.rpm
+      - /tmp/mysql-community-devel-5.7.28-1.el7.x86_64.rpm
+      - gcc
+      - python-devel
+
+- name: Start MySQL Service
+  systemd:
+    name: mysqld
+    state: started
+    enabled: yes
+
+- name: Gather Root Password
+  shell: cat /var/log/mysqld.log | grep 'A temporary password' | awk '{print $NF}'
+  register: mysql_password
+
+- name: Make Root Reset Password File
+  lineinfile:
+    path: /tmp/root-schema.sql
+    line: "ALTER USER 'root'@'localhost' IDENTIFIED BY 'R00tPa$s1!';"
+    create: yes
+
+- name: Install pexpect module
+  pip:
+    name: pexpect
+
+- name: Reset MySQL Password
+  expect:
+    command: mysql -uroot -p
+    #command: echo show databases | mysql -u root -p
+    #echo: yes
+    responses:
+      (?i)password: "{{mysql_password.stdout}}"
+      'mysql>': "ALTER USER 'root'@'localhost' IDENTIFIED BY 'R00tPa$s1!';uninstall plugin validate_password;exit"
+  register: out
+  ignore_errors: yes
+
+
+

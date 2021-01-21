@@ -1,0 +1,13 @@
+[Unit]
+Description=Node.js Cart Service
+
+[Service]
+User=roboshop
+ExecStart=/bin/node /home/roboshop/cart/server.js
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/robo-shop/cart.log
+StandardError=append:/var/log/robo-shop/cart.log
+SyslogIdentifier=cart
+[Install]
+WantedBy=multi-user.target

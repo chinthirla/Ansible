@@ -1,0 +1,6 @@
+Hello World
+URL = {{URL}}
+HOSTNAME = {{ansible_fqdn}}
+{% for url in URL1 %}
+URL = {{url}}
+{% endfor %}

@@ -1,0 +1,3 @@
+APP_NAME: shipping
+MYSQL_HOST: mysql-{{ENV}}.devopsb47.internal
+CART_HOST: "cart-{{ENV}}.devopsb47.internal"

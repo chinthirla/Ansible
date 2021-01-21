@@ -1,0 +1,24 @@
+- name: Demo on filters
+  hosts: all
+  vars:
+    user: demo
+    list1: ["abc", "xyz", "123"]
+    url: abc.com/download/abc.xml
+    NODEJS_VERSON: 12.17.0
+    NODEJS_URL: https://nodejs.org/dist/v{{NODEJS_VERSON}}/node-v{{NODEJS_VERSON}}-linux-x64.tar.xz
+  tasks:
+    - name: Convert to upper case
+      debug:
+        msg: "{{user | upper }}"
+
+    - name: Get first Value
+      debug:
+        msg: "{{list1 | last}}"
+
+    - name: Split a URL
+      debug:
+        msg: "{{url.split('/') | last}}"
+
+    - name: Print dir
+      debug:
+        msg: "{{NODEJS_URL.split('/') | last | regex_replace('.tar.xz', '')}}"

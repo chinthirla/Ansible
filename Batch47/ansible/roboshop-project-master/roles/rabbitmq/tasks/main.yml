@@ -1,0 +1,29 @@
+- name: Install Erlang
+  yum:
+    name: https://packages.erlang-solutions.com/erlang/rpm/centos/7/x86_64/esl-erlang_22.2.1-1~centos~7_amd64.rpm
+    state: present
+
+- name: Setup YUM Repos for RabbitMQ
+  shell: curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | bash
+
+- name: Install RabbitMQ Server
+  yum:
+    name: rabbitmq-server
+    state: present
+
+- name: Start rabbitmq-server
+  systemd:
+    name: rabbitmq-server
+    enabled: yes
+    state: started
+
+- name: Create RabbitMQ RoboShop User
+  command: rabbitmqctl add_user {{MQ_USER}} {{MQ_PASS}}
+  ignore_errors: yes
+
+- name: Set Admin Permssions
+  command: rabbitmqctl set_user_tags {{MQ_USER}} administrator
+
+- name: Set Permsssions to all queues
+  command: rabbitmqctl set_permissions -p / {{MQ_USER}} ".*" ".*" ".*"
+

@@ -1,0 +1,5 @@
+- name: Download artifacts from Nexus
+  get_url:
+    url: "http://172.31.57.236:8081/repository/{{APPLICATION_NAME}}-{{ENVIRONMENT}}/{{APPLICATION_NAME}}-{{APP_VERSION}}.tar.gz"
+    dest: "/tmp/{{APPLICATION_NAME}}.tar.gz"
+

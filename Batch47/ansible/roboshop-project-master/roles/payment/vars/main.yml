@@ -1,0 +1,4 @@
+APP_NAME: payment
+RABBITMQ_HOST: rabbitmq-{{ENV}}.devopsb47.internal
+USER_HOST: user-{{ENV}}.devopsb47.internal
+CART_HOST: cart-{{ENV}}.devopsb47.internal

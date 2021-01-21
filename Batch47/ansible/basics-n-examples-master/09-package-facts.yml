@@ -1,0 +1,11 @@
+- name: Demo on Packaage Facts
+  hosts: all
+  tasks:
+    - name: Gather the rpm package facts
+      package_facts:
+        manager: auto
+
+    - name: Check whether a package called foobar is installed
+      debug:
+        msg: "{{ ansible_facts.packages['openssh'] | length }} versions of foobar are installed!"
+      when: "'openssh' in ansible_facts.packages"

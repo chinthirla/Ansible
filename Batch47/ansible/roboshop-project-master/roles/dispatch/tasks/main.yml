@@ -1,0 +1,25 @@
+- name: Setup Artifacts for {{APP_NAME}} Service
+  include_role:
+    name: common
+    tasks_from: setup-artifacts
+  vars:
+    APPLICATION_NAME: dispatch
+
+- name: Setup executable permission to dipatch binary
+  file:
+    path: /home/{{APP_USER}}/{{APP_NAME}}/dispatch
+    state: file
+    mode: 0755
+
+- name: Setup SystemD Service
+  include_role:
+    name: common
+    tasks_from: service-setup
+  vars:
+    COMMAND: "/home/{{APP_USER}}/{{APP_NAME}}/dispatch"
+
+- name: Start {{APP_NAME}} Service
+  systemd:
+    name: "{{APP_NAME}}"
+    state: restarted
+    enabled: yes

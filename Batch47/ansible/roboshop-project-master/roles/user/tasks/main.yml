@@ -1,0 +1,5 @@
+- name: Include NodeJS Role to setup User Service
+  include_role:
+    name: nodejs-app
+  vars:
+    APPLICATION_NAME: user

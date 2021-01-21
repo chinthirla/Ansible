@@ -1,0 +1,15 @@
+# Tags will be used to load only particular tasks which are tagged
+- name: Tags
+  hosts: all
+  tasks:
+    - name: centos
+      tags:
+        - centos
+      debug:
+        msg: Hello from Centos
+    - name: ubuntu
+      tags:
+        - ubuntu
+      debug:
+        msg: Hello from Ubuntu
+

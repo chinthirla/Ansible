@@ -1,0 +1,14 @@
+- name: Create a directory of log messages
+  file:
+    path: /var/log/robo-shop
+    state: directory
+
+- name: Copy Rsyslog Config
+  template:
+    src: rsyslog.conf.j2
+    dest: /etc/rsyslog.d/10-roboshop.conf
+  notify: Restart rsyslog
+
+- name: Disable auto-shutdown
+  shell: disable-auto-shutdown
+

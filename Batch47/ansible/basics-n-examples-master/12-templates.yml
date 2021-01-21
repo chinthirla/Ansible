@@ -1,0 +1,5 @@
+- name: Demo on templates
+  hosts: all
+  roles:
+    - sample
+  

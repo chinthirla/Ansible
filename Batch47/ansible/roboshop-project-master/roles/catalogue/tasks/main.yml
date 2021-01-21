@@ -1,0 +1,5 @@
+- name: Include NodeJS Role to setup Catalogue Service
+  include_role:
+    name: nodejs-app
+  vars:
+    APPLICATION_NAME: catalogue

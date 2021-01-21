@@ -1,0 +1,13 @@
+- name: Print Hello from Role
+  debug:
+    msg: Hello WOrld
+
+- name: Print URL
+  debug:
+    msg: "URL  = {{URL}}"
+
+- name: Template - {{URL}}
+  template:
+    src: sample.txt
+    dest: /tmp/sample.txt
+

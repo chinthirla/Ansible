@@ -1,0 +1,59 @@
+- name: Demo on variables
+  hosts: all
+  gather_facts: no
+  vars_files:
+    - vars.yml
+  vars:
+    URL: play.google.com
+#  vars_prompt:
+#    - name: URL
+#      prompt: Enter URL
+#      private: no
+  tasks:
+    - name: Print Variable
+      debug:
+        msg: URL = {{URL}}
+    - name: Print Variable from task
+      debug:
+        msg: URL = {{URL}}
+      vars:
+        URL: task.google.com
+    - name: Print a variable from inventory file
+      debug:
+        msg: URL = {{URL}} , URL1 = {{URL1}}
+
+## In  ansible any variable will be called with two flower braces
+## When any value starts with a variable then always provide the input in quotes.
+## Variables can be declared in Play and in Task as well.
+## Precedence of local variables is always higher than global variables.
+
+## Task variable will override the play variable.
+## vars_files variable will override play variable and vars_prompt variable also.
+## inventory variables will be overridden by any vars in the play
+## -e variable on CLI will override everything
+## 1. task vars
+## 2. vars_files
+## 3. vars_prompt
+## 4. vars
+## 5. inventory variables
+
+- name: Demo on runtime variables
+  hosts: all
+  gather_facts: no
+  tasks:
+    - name: Run uptime command
+      shell: uptime
+      register: OUT
+
+    - name: Print OUT
+      debug:
+        msg: "{{OUT.stdout}}"
+
+
+- name: Demo on printing facts
+  hosts: all
+  gather_facts: yes
+  tasks:
+    - name: Print FQDN fact
+      debug:
+        msg: "{{ansible_fqdn}}"

@@ -1,0 +1,27 @@
+- name: Demo on Loop
+  hosts: all
+  gather_facts: no
+  vars:
+    SOME_VAR:
+      - redhat
+      - ubuntu
+      - suse
+  tasks:
+    - name: Demo on LooP
+      debug:
+        msg: "{{item}}"
+      loop:
+        - CentOS
+        - Debain
+        - SunOS
+        - AIX
+
+    - name: Print first value in loop
+      debug:
+        msg: "{{SOME_VAR[0]}}"
+
+
+    - name: Print
+      debug:
+        msg: "{{item[0], item[1]}}"
+      loop: "{{ ['alice', 'bob'] |product(['clientdb', 'employeedb', 'providerdb'])|list }}"

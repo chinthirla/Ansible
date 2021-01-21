@@ -1,0 +1,2 @@
+127.0.0.1   mysql-{{ENV}}.devopsb47.internal user-{{ENV}}.devopsb47.internal redis-{{ENV}}.devopsb47.internal localhost mongodb-{{ENV}}.devopsb47.internal rabbitmq-{{ENV}}.devopsb47.internal catalogue-{{ENV}}.devopsb47.internal cart-{{ENV}}.devopsb47.internal
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6

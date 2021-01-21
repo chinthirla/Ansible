@@ -1,0 +1,63 @@
+- name: Setup roboshop project
+  hosts: all
+  become: yes
+  tasks:
+    - name: Inlcude MongoDB Role
+      import_role:
+        name: mongodb
+      tags: [mongodb]
+
+    - name: Include Redis Role
+      import_role:
+        name: redis
+      tags: [redis]
+
+    - name: Include MySQL role
+      import_role:
+        name: mysql
+      tags: [mysql]
+
+    - name: Include RabbitMQ role
+      import_role:
+        name: rabbitmq
+      tags: [rabbitmq]
+
+    - name: Include Cart MicroService role
+      import_role:
+        name: cart
+      tags: [cart]
+
+    - name: Include Catalogue MicroService role
+      import_role:
+        name: catalogue
+      tags: [catalogue]
+
+    - name: Include User MicroService role
+      import_role:
+        name: user
+      tags: [user]
+
+    - name: Include Shipping MicroService role
+      import_role:
+        name: shipping
+      tags: [shipping]
+
+    - name: Include Ratings MicroService role
+      import_role:
+        name: ratings
+      tags: [ratings]
+
+    - name: Include Payment MicroService role
+      import_role:
+        name: payment
+      tags: [payment]
+
+    - name: Include Dispatch MicroService role
+      import_role:
+        name: dispatch
+      tags: [dispatch]
+
+    - name: Include Frontend MicroService role
+      import_role:
+        name: frontend
+      tags: [frontend]

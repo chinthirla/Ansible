@@ -1,0 +1,26 @@
+#### RULES ####
+$template catalogue, "/var/log/robo-shop/catalogue.log"
+$template user, "/var/log/robo-shop/user.log"
+$template cart, "/var/log/robo-shop/cart.log"
+$template shipping, "/var/log/robo-shop/shipping.log"
+$template payment, "/var/log/robo-shop/payment.log"
+$template dispatch, "/var/log/robo-shop/dispatch.log"
+
+
+if $programname contains 'catalogue' then ?catalogue
+& ~
+
+if $programname contains 'user' then ?user
+& ~
+
+if $programname contains 'cart' then ?cart
+& ~
+
+if $programname contains 'shipping' then ?shipping
+& ~
+
+if $programname contains 'payment' then ?payment
+& ~
+
+if $programname contains 'dispatch' then ?dispatch
+& ~

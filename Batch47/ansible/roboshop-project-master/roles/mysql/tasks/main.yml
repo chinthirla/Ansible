@@ -1,0 +1,47 @@
+- name: Install MySQL
+  include_role:
+    name: mysql
+    tasks_from: install
+
+- name: Download Artifact
+  include_role:
+    name: common
+    tasks_from: download-artifact-s3.yml
+  vars:
+    APPLICATION_NAME: mysql
+
+- name: Unarchive MySQL
+  unarchive:
+    src: /tmp/mysql.tar.gz
+    dest: /tmp
+    remote_src: yes
+
+#- name: Load Schema
+#  shell:
+#  loop:
+#    - /tmp/catalogue.js
+#    - /tmp/users.js
+
+- name: Install GCC
+  yum:
+    name: "{{item}}"
+    state: present
+  loop:
+    - gcc
+    - python-devel
+
+- name: Install Pip Module
+  pip:
+    name: MySQL-python
+
+
+- name: Load Schema
+  mysql_db:
+    state: import
+    name: all
+    target: "{{item}}"
+    login_user: root
+    login_password: "R00tPa$s1!"
+  loop:
+    - /tmp/ratings.sql
+    - /tmp/shipping.sql

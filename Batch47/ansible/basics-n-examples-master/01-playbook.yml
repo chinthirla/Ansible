@@ -1,0 +1,15 @@
+- name: PLAY1
+  hosts: all
+  tasks:
+    - name: Check Ping from Play1
+      ping:
+
+- name: PLAY2
+  hosts: all
+  tasks:
+    - name: Check Ping from Play2
+      ping:
+
+# 90% of requirements will be with a single play in playbook.
+# 172.31.52.56               : ok=4    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+# If unreachable & failed is > 0 then ansible playbook considered as failure

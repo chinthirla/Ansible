@@ -1,0 +1,7 @@
+APP_USER: roboshop
+CATALOGUE_HOST: localhost
+USER_HOST: localhost
+CART_HOST: localhost
+SHIPPING_HOST: localhost
+PAYMENT_HOST: localhost
+RATINGS_HOST: localhost

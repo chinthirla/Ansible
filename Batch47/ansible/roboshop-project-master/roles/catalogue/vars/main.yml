@@ -1,0 +1,2 @@
+APP_NAME: catalogue
+MONGO_HOST: mongodb-{{ENV}}.devopsb47.internal

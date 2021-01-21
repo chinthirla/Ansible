@@ -1,0 +1,126 @@
+- name: Copy Hosts file
+  when: ENV == "test"
+  template:
+    src: hosts
+    dest: /etc/hosts
+  vars:
+    ENV: test
+
+- name: Create Log Directory
+  file:
+    path: /var/log/robo-shop
+    state: directory
+
+- name: Copy Service file
+  template:
+    src: systemd.service
+    dest: /etc/systemd/system/{{APP_NAME}}.service
+
+- name: Add MONGO_URL env variable to SystemD file - Catalogue Service
+  lineinfile:
+    path: /etc/systemd/system/{{APP_NAME}}.service
+    line: "Environment=\"MONGO_URL=mongodb://{{MONGO_HOST}}:27017/catalogue\""
+    insertafter: "^ExecStart"
+  when: APPLICATION_NAME == "catalogue"
+
+- name: Add MONGO_URL env variable to SystemD file - User Service
+  lineinfile:
+    path: /etc/systemd/system/{{APP_NAME}}.service
+    line: "Environment=\"MONGO_URL=mongodb://{{MONGO_HOST}}:27017/users\""
+    insertafter: "^ExecStart"
+  when: APPLICATION_NAME == "user"
+
+- name: Add REDIS_HOST env variable to SystemD file - User Service
+  lineinfile:
+    path: /etc/systemd/system/{{APP_NAME}}.service
+    line: "Environment=REDIS_HOST={{REDIS_HOST}}"
+    insertafter: "^ExecStart"
+  when: APPLICATION_NAME == "user"
+
+- name: Add REDIS_HOST env variable to SystemD file - Cart Service
+  lineinfile:
+    path: /etc/systemd/system/{{APP_NAME}}.service
+    line: "Environment=REDIS_HOST={{REDIS_HOST}}"
+    insertafter: "^ExecStart"
+  when: APPLICATION_NAME == "cart"
+
+- name: Add CATALOGUE_HOST env variable to SystemD file - Cart Service
+  lineinfile:
+    path: /etc/systemd/system/{{APP_NAME}}.service
+    line: "Environment=CATALOGUE_HOST={{CATALOGUE_HOST}}"
+    insertafter: "^ExecStart"
+  when: APPLICATION_NAME == "cart"
+
+- name: Add CART_ENDPOINT env variable to SystemD file - Shipping Service
+  lineinfile:
+    path: /etc/systemd/system/{{APP_NAME}}.service
+    line: "Environment=CART_ENDPOINT={{CART_HOST}}:7000"
+    insertafter: "^ExecStart"
+  when: APPLICATION_NAME == "shipping"
+
+- name: Add DB_HOST env variable to SystemD file - Shipping Service
+  lineinfile:
+    path: /etc/systemd/system/{{APP_NAME}}.service
+    line: "Environment=DB_HOST={{MYSQL_HOST}}"
+    insertafter: "^ExecStart"
+  when: APPLICATION_NAME == "shipping"
+
+- name: Add CART_HOST env variable to SystemD file - Payment Service
+  lineinfile:
+    path: /etc/systemd/system/{{APP_NAME}}.service
+    line: "Environment=CART_HOST={{CART_HOST}}"
+    insertafter: "^ExecStart"
+  when: APPLICATION_NAME == "payment"
+
+- name: Add USER_HOST env variable to SystemD file - Payment Service
+  lineinfile:
+    path: /etc/systemd/system/{{APP_NAME}}.service
+    line: "Environment=USER_HOST={{USER_HOST}}"
+    insertafter: "^ExecStart"
+  when: APPLICATION_NAME == "payment"
+
+- name: Add AMQP_HOST env variable to SystemD file - Payment Service
+  lineinfile:
+    path: /etc/systemd/system/{{APP_NAME}}.service
+    line: "Environment=AMQP_HOST={{RABBITMQ_HOST}}"
+    insertafter: "^ExecStart"
+  when: APPLICATION_NAME == "payment"
+
+- name: Add MQ_USER env variable to SystemD file - Payment Service
+  lineinfile:
+    path: /etc/systemd/system/{{APP_NAME}}.service
+    line: "Environment=MQ_USER={{MQ_USER}}"
+    insertafter: "^ExecStart"
+  when: APPLICATION_NAME == "payment"
+
+- name: Add MQ_PASS env variable to SystemD file - Payment Service
+  lineinfile:
+    path: /etc/systemd/system/{{APP_NAME}}.service
+    line: "Environment=MQ_PASS={{MQ_PASS}}"
+    insertafter: "^ExecStart"
+  when: APPLICATION_NAME == "payment"
+
+- name: Add AMQP_HOST env variable to SystemD file - Dispatch Service
+  lineinfile:
+    path: /etc/systemd/system/{{APP_NAME}}.service
+    line: "Environment=AMQP_HOST={{RABBITMQ_HOST}}"
+    insertafter: "^ExecStart"
+  when: APPLICATION_NAME == "dispatch"
+
+- name: Add MQ_USER env variable to SystemD file - Dispatch Service
+  lineinfile:
+    path: /etc/systemd/system/{{APP_NAME}}.service
+    line: "Environment=MQ_USER={{MQ_USER}}"
+    insertafter: "^ExecStart"
+  when: APPLICATION_NAME == "dispatch"
+
+- name: Add MQ_PASS env variable to SystemD file - Dispatch Service
+  lineinfile:
+    path: /etc/systemd/system/{{APP_NAME}}.service
+    line: "Environment=MQ_PASS={{MQ_PASS}}"
+    insertafter: "^ExecStart"
+  when: APPLICATION_NAME == "dispatch"
+
+- name: Reload SystemD
+  systemd:
+    daemon_reload: yes

@@ -1,0 +1,24 @@
+{
+  "data": {
+    "type": "infra_process_running",
+    "name": "NGINX_DOWN_ALERT",
+    "enabled": true,
+    "where_clause":"(hostname LIKE '%{{ansible_fqdn}}%')",
+    "violation_close_timer": 0,
+    "policy_id": {{POLICY_ID}},
+    "comparison": "equal",
+    "critical_threshold": {
+      "value": 0,
+      "duration_minutes": 1
+    },
+    "process_filter": {
+      "and": [
+        {
+          "is": {
+            "commandLine": "/usr/sbin/nginx"
+          }
+        }
+      ]
+    }
+  }
+}

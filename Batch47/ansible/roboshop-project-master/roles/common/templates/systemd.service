@@ -1,0 +1,17 @@
+[Unit]
+Description={{APP_NAME}} Service
+
+[Service]
+{% if APP_NAME == 'payment' %}
+WorkingDirectory=/home/{{APP_USER}}/{{APP_NAME}}
+{% else %}
+User={{APP_USER}}
+{% endif %}
+ExecStart={{COMMAND}}
+Restart=always
+RestartSec=10
+StandardOutput=append:/var/log/robo-shop/cart.log
+StandardError=append:/var/log/robo-shop/cart.log
+SyslogIdentifier={{APP_NAME}}
+[Install]
+WantedBy=multi-user.target

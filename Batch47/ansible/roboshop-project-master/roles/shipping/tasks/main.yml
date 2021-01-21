@@ -1,0 +1,24 @@
+- name: Install Java
+  yum:
+    name: java
+    state: present
+
+- name: Setup Artifacts for {{APP_NAME}} Service
+  include_role:
+    name: common
+    tasks_from: setup-artifacts
+  vars:
+    APPLICATION_NAME: shipping
+
+- name: Setup SystemD Service
+  include_role:
+    name: common
+    tasks_from: service-setup
+  vars:
+    COMMAND: "/usr/bin/nohup java -jar /home/{{APP_USER}}/{{APP_NAME}}/shipping.jar"
+
+- name: Start {{APP_NAME}} Service
+  systemd:
+    name: "{{APP_NAME}}"
+    state: started
+    enabled: yes

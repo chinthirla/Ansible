@@ -1,0 +1,2 @@
+- name: Run MySQL Install Script
+  shell: curl -s https://raw.githubusercontent.com/linuxautomations/labautomation/master/tools/mysql/install-5.7.sh | bash

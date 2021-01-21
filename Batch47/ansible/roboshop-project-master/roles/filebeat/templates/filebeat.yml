@@ -1,0 +1,61 @@
+filebeat.inputs:
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/robo-shop/dispatch.log
+    fields:
+      app_name: dispatch
+  - type: log
+    enabled: true
+    json.keys_under_root: true
+    paths:
+      - /var/log/robo-shop/cart.log
+    fields:
+      app_name: cart
+  - type: log
+    enabled: true
+    json.keys_under_root: true
+    paths:
+      - /var/log/robo-shop/user.log
+    fields:
+      app_name: user
+  - type: log
+    enabled: true
+    json.keys_under_root: true
+    paths:
+      - /var/log/robo-shop/catalogue.log
+    fields:
+      app_name: catalogue
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/robo-shop/payment.log
+    fields:
+      app_name: payment
+    include_lines: ['^\[[0-9]', '^\[pid']
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/robo-shop/shipping.log
+    fields:
+      app_name: shipping
+    exclude_lines: ['\[Thread', '^\[main', '^[A-Z][a-z][a-z]', '^[A-Z][A-Z][A-Z][A-Z]']
+    multiline.pattern: ^\[qtp
+    multiline.match: after
+    multiline.negate: true
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/nginx/access.log
+    fields:
+      app_name: nginx_access
+  - type: log
+    enabled: true
+    paths:
+      - /var/log/nginx/error.log
+    fields:
+      app_name: nginx_error
+
+
+output.logstash:
+  hosts: ["{{LOGSTASH_IP}}:5044"]

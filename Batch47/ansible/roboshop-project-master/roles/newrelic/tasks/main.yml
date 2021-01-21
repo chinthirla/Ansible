@@ -1,0 +1,133 @@
+- name: Install JQ 
+  package:
+    name: jq 
+    state: installed 
+
+- name: Upload license key 
+  lineinfile:
+    path: /etc/newrelic-infra.yml
+    line: "license_key: {{LICENSE_KEY}}"
+    create: yes 
+
+- name: Download centos repo 
+  get_url:
+    url: https://download.newrelic.com/infrastructure_agent/linux/yum/el/7/x86_64/newrelic-infra.repo
+    dest: /etc/yum.repos.d/newrelic-infra.repo
+
+- name: Install new-relic agent 
+  yum:
+    name: newrelic-infra
+    state: present 
+
+- name: Host Not reporting Alert
+  template:
+    src: "{{item}}.j2"
+    dest: "/tmp/{{item}}"
+  loop:
+    - host-not-report.json
+
+- name: Cart Service Down Alert
+  template:
+    src: "{{item}}.j2"
+    dest: "/tmp/{{item}}"
+  loop:
+    - cart-svc-proc-check.json
+  when: ALERT_SERVICE_NAME == "cart"
+
+- name: Catalogue Service Down Alert
+  template:
+    src: "{{item}}.j2"
+    dest: "/tmp/{{item}}"
+  loop:
+    - catalogue-svc-proc-check.json
+  when: ALERT_SERVICE_NAME == "catalogue"
+
+- name: User Service Down Alert
+  template:
+    src: "{{item}}.j2"
+    dest: "/tmp/{{item}}"
+  loop:
+    - user-svc-proc-check.json
+  when: ALERT_SERVICE_NAME == "user"
+
+- name: Payment Service Down Alert
+  template:
+    src: "{{item}}.j2"
+    dest: "/tmp/{{item}}"
+  loop:
+    - payment-svc-proc-check.json
+  when: ALERT_SERVICE_NAME == "payment"
+
+- name: Dispatch Service Down Alert
+  template:
+    src: "{{item}}.j2"
+    dest: "/tmp/{{item}}"
+  loop:
+    - dispatch-svc-proc-check.json
+  when: ALERT_SERVICE_NAME == "dispatch"
+
+- name: Frontend Service Down Alert
+  template:
+    src: "{{item}}.j2"
+    dest: "/tmp/{{item}}"
+  loop:
+    - frontend-svc-proc-check.json
+  when: ALERT_SERVICE_NAME == "frontend"
+
+- name: Ratings Service Down Alert
+  template:
+    src: "{{item}}.j2"
+    dest: "/tmp/{{item}}"
+  loop:
+    - ratings-svc-proc-check.json
+  when: ALERT_SERVICE_NAME == "ratings"
+
+
+  #async: 60
+  #poll: 5
+
+- name: Copy Delete Script 
+  copy:
+    src: delete-alert.sh 
+    dest: /tmp/delete-alert.sh 
+    mode: 0755
+
+- name: Delete old alerts 
+  shell: /tmp/delete-alert.sh {{API_KEY}}
+
+- name: Copy alert make script 
+  copy:
+    src: make-alert.sh 
+    dest: /tmp/make-alert.sh 
+    mode: 0755
+
+- name: Create Alert for Host Not Reporting 
+  shell: /tmp/make-alert.sh {{API_KEY}} host-not-report.json
+
+- name: Setup Cart Service Condition
+  shell: /tmp/make-alert.sh {{API_KEY}} cart-svc-proc-check.json
+  when: ALERT_SERVICE_NAME == "cart"
+
+- name: Setup Catalogue Service Condition
+  shell: /tmp/make-alert.sh {{API_KEY}} catalogue-svc-proc-check.json
+  when: ALERT_SERVICE_NAME == "catalogue"
+
+- name: Setup User Service Condition
+  shell: /tmp/make-alert.sh {{API_KEY}} user-svc-proc-check.json
+  when: ALERT_SERVICE_NAME == "user"
+
+- name: Setup Payment Service Condition
+  shell: /tmp/make-alert.sh {{API_KEY}} payment-svc-proc-check.json
+  when: ALERT_SERVICE_NAME == "payment"
+
+- name: Setup Ratings Service Condition
+  shell: /tmp/make-alert.sh {{API_KEY}} ratings-svc-proc-check.json
+  when: ALERT_SERVICE_NAME == "ratings"
+
+- name: Setup Frontend Service Condition
+  shell: /tmp/make-alert.sh {{API_KEY}} frontend-svc-proc-check.json
+  when: ALERT_SERVICE_NAME == "frontend"
+
+- name: Setup Dispatch Service Condition
+  shell: /tmp/make-alert.sh {{API_KEY}} dispatch-svc-proc-check.json
+  when: ALERT_SERVICE_NAME == "dispatch"
