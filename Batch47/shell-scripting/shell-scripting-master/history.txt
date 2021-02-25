@@ -1,0 +1,179 @@
+    1  git clone https://gitlab.com/batch47/shell-scripting.git
+    2  cd shell-scripting/
+    3  ls
+    4  git pull
+    5  cd 
+    6  git clone https://gitlab.com/batch47/handnotes.git
+    7  rm -rf handnotes/
+    8  ls
+    9  git config --global core.filemode false
+   10  cd shell-scripting/
+   11  ls
+   12  chmod +x 01-comment.sh 
+   13  ./01-comment.sh 
+   14  git pull 
+   15  abc
+   16  alias abc='ls -l -t -r'
+   17  abc
+   18  alias G='git pull'
+   19  G
+   20  las
+   21  ls
+   22  sh 02-print.sh 
+   23  python 02-print.sh 
+   24  chmod +x 02-print.sh 
+   25  chmod 755 02-print.sh 
+   26  chmod ugo+x 02-print.sh 
+   27  alias G='git pull; chmod+x *.sh'
+   28  ls
+   29  chmod -x 01-comment.sh 
+   30  chmod -x 02-print.sh 
+   31  ls
+   32  ls -l
+   33  G
+   34  alias G='git pull; chmod +x *.sh'
+   35  G
+   36  ls -l 
+   37  ./02-print.sh 
+   38  echo -e Hello World\nBye World
+   39  echo -e "Hello World\nBye World"
+   40  G
+   41  ls
+   42  cat 02-print.sh 
+   43  git config  core.filemode false
+   44  G
+   45  ls
+   46  ./02-print.sh 
+   47  G; ./02-print.sh 
+   48  G
+   49  ls
+   50  ./02-variables.sh
+   51  G;./02-variables.sh
+   52  date 
+   53  date +%F
+   54  G;./02-variables.sh
+   55  python
+   56  DIR=""
+   57  echo rm -rf /$DIR 
+   58  COURSE=DEVOPS
+   59  G;./02-variables.sh
+   60  export COURSE=DEVOPS
+   61  G;./02-variables.sh
+   62  G; ./04-read.sh
+   63  cp README.md /tmp/
+   64  G
+   65  ./05-special-variables.sh
+   66  ./05-special-variables.sh 100 2000
+   67  G;./05-special-variables.sh 100 2000
+   68  cd 
+   69  ls
+   70  ls -A
+   71  vi .bash_profile
+   72  sudo init 0
+   73  echo *** Hello ***
+   74  echo '*** Hello ***'
+   75  echo "*** Hello ***"
+   76  a=10
+   77  echo 'a = ${a}'
+   78  echo "a = ${a}"
+   79  echo -e Hello\nBye
+   80  echo -e Hello\\nBye
+   81  echo -e Hello\\nBye\\nHello\\nBye\\nHello
+   82  ls
+   83  ls >/tmp/out
+   84  rm -f /tmp/out
+   85  ls -l /tmp/out
+   86  ls >/tmp/out
+   87  ls -l /tmp/out
+   88  cat /tmp/out
+   89  ls shell-scripting/
+   90  ls shell-scripting/ >/tmp/out 
+   91  cat /tmp/out 
+   92  echo "*** Heloo ****"  >>/tmp/out 
+   93  cat /tmp/out 
+   94  echo "*** Heloo ****"  | tee /tmp/new
+   95  cat /tmp/new 
+   96  echo "*** Heloo ****"  | tee - a/tmp/new
+   97  echo "*** Heloo ****"  | tee -a \/tmp/new
+   98  echo "*** Heloo ****"  | tee -a /tmp/new
+   99  cat /tmp/new
+  100  ls -ld /boot /boot1
+  101  ls -ld /boot /boot1 >/tmp/out 
+  102  ls -ld /boot /boot1 >/tmp/out 2>/tmp/err
+  103  cat /tmp/err
+  104  cat /tmp/out 
+  105  ls -ld /boot /boot1 &>/tmp/out 
+  106  cat /tmp/out 
+  107  ls -ld /boot /boot1 &>/dev/null 
+  108  useradd sample &>/dev/null
+  109  id sample
+  110  useradd sample &>/dev/null
+  111  id sample
+  112  useradd sample &>/dev/null
+  113  echo $?
+  114  cd shell-scripting/
+  115  ls
+  116  G
+  117  ls
+  118  sh 06-exit-status.sh 
+  119  echo $?
+  120  G
+  121  sh 06-exit-status.sh 
+  122  echo $?
+  123  G
+  124  sh 07-functions.sh 
+  125  G; sh 07-functions.sh
+  126  cd 
+  127  vi .bash_profile 
+  128  exit
+  129  ls
+  130  cd shell-scripting/
+  131  G; sh 07-functions.sh 
+  132  echo $a
+  133  a=10
+  134  a(){ echo a; }
+  135  a
+  136  b
+  137  a(){ }
+  138  b(){ }
+  139  b(){ echo b }
+  140  b
+  141  b() { echo b ; }
+  142  G; sh 07-functions.sh 
+  143  cat 07-functions.sh 
+  144  G; sh 07-functions.sh 
+  145  echo $?
+  146  G; sh 07-functions.sh 
+  147  echo $?
+  148  echo SUCCESS
+  149  echo FAILURE 
+  150  G
+  151  LS
+  152  ls
+  153  G; sh 08-case-condition.sh
+  154  G; sh 08-case-condition.sh AWS
+  155  G; sh 08-case-condition.sh DEVOPS
+  156  G; sh 08-case-condition.sh 
+  157  history 
+  158  history >history.txt
+  159  git add -A ; git commit -m ss; git push 
+  160      git config --global user.name "Your Name"
+  161      git config --global user.email you@example.com
+  162      git config --global user.name "Your Name"
+  163  git add -A ; git commit -m ss; git push 
+  164  ls
+  165  vi .git/config 
+  166  git add -A ; git commit -m ss; git push 
+  167  git config --global push.default matching
+  168  git add -A ; git commit -m ss; git push 
+  169  cd 
+  170  rm -rf shell-scripting/
+  171  rm -f .git-credentials 
+  172  git clone https://gitlab.com/batch47/handnotes.git
+  173  cd sh
+  174  ls
+  175  rm -rf handnotes/
+  176  git clone https://gitlab.com/batch47/shell-scripting.git/
+  177  cd shell-scripting/
+  178  ls
+  179  history >history.txt 
