@@ -1,0 +1,11 @@
+- name: playbook to  creating file
+  hosts: localhost
+  tasks:
+          - name: tasks starts from here      
+            file:
+                    path: /tmp/testing.txt
+                    owner: root
+                    group: root
+                    mode: '0644'
+                    state: touch
+

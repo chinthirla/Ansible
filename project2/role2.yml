@@ -1,0 +1,6 @@
+- name: running tasks from roles
+  hosts: localhost
+  become: yes
+  become_user: root
+  roles:
+          - project1

@@ -1,0 +1,5 @@
+- name: executing role by playbook
+  hosts: localhost
+  tasks:
+          roles:
+                  - project1

@@ -1,0 +1,3 @@
+---
+# vars file for project1
+file_path: /etc/ansible/roles/project1/files/index.html
