@@ -1,0 +1,6 @@
+---
+# handlers file for project1
+- name: resatrt apache
+  service:
+          name: httpd
+          state: resatrted

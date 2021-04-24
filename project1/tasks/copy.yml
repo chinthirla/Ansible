@@ -1,0 +1,9 @@
+---
+tasks:
+        - name: creating file insode files directory
+          file:
+                  name: /etc/ansible/roles/project1/files/index.html
+                  owner: root
+                  group: root
+                  mode: '0644'
+                  state: touch

@@ -1,0 +1,10 @@
+---
+# tasks file for project1
+- name: install httpd
+  yum:
+          name: httpd
+          state: latest
+- name: Creating a file
+  file:
+          name: /tmp/file.txt    
+          state: touch

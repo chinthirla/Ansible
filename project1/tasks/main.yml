@@ -1,0 +1,21 @@
+---
+# tasks file for project1
+#- include: copy.yml
+- import_tasks: copy.yml
+- name: main task files
+  yum:
+          name: httpd
+          state: latest
+- name: Copying index file
+  copy:
+          src: {{ file_path  }}
+          dest: /var/www/html
+  notify:
+          - resatrt apache
+- name: stat and enable httpd service
+  service:
+          name: httpd
+          state: resatrted
+          enabled: yes
+          
+       
